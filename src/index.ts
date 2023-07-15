@@ -11,7 +11,7 @@ const userRoutes = require("./User/users.routes");
 import mongoDB from "./MongoDB/connect";
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({ origin: process.env.PROD_URL }));
 app.use("/api/", loginRoute);
 app.use("/api/", registerRoute);
 app.use("/api/", blogRoutes);
