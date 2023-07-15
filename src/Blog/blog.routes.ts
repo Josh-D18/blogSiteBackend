@@ -9,17 +9,8 @@ const auth = require("../Auth/auth");
 router.get("/blog/:id", auth, async (req: Request, res: Response) => {
   try {
     const blog = await Blog.findById(req.params.id);
+    res.set("Content-Type", "application/json");
     res.json(blog);
-  } catch (error) {
-    res.status(400).json({ error });
-  }
-});
-
-//Get blogs from a user
-router.get("/user/blog/:id", auth, async (req: Request, res: Response) => {
-  try {
-    const user = await User.findById(req.params.id);
-    res.json(user?.blogs);
   } catch (error) {
     res.status(400).json({ error });
   }
@@ -29,6 +20,7 @@ router.get("/user/blog/:id", auth, async (req: Request, res: Response) => {
 router.post("/blog", auth, async (req: Request, res: Response) => {
   try {
     const { title, content, author } = req.body;
+    res.set("Content-Type", "application/json");
     if (!title || !content || !author) {
       return res.status(400).json({ error: "Missing required fields" });
     }
@@ -52,7 +44,7 @@ router.post("/blog", auth, async (req: Request, res: Response) => {
 router.put("/blog/:id", auth, async (req: Request, res: Response) => {
   try {
     const { title, content, author } = req.body;
-
+    res.set("Content-Type", "application/json");
     const updatedBlog = {
       title,
       content,
