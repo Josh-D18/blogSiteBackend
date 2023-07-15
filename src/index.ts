@@ -12,8 +12,8 @@ import mongoDB from "./MongoDB/connect";
 
 app.use(express.json());
 app.use(cors());
-app.use("/api/login", loginRoute);
-app.use("/api/register", registerRoute);
+app.use("/api/", loginRoute);
+app.use("/api/", registerRoute);
 app.use("/api/", blogRoutes);
 app.use("/api/", userRoutes);
 

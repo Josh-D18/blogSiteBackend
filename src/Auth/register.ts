@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 import { Request, Response } from "express";
 import User from "../Models/User/user";
 
-router.post("/", async (req: Request, res: Response) => {
+router.post("/register", async (req: Request, res: Response) => {
   try {
     let username = await req.body.username;
     let password = await req.body.password;
