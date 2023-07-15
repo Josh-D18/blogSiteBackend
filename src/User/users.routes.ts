@@ -9,7 +9,14 @@ router.get("/user/:id", auth, async (req: Request, res: Response) => {
   try {
     const user = await User.findById({ _id: req.params.id });
     res.set("Content-Type", "application/json");
-    res.json(user);
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+    res.setHeader(
+      "Access-Control-Allow-Headers",
+      "Content-Type, Authorization"
+    );
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    res.status(200).json(user);
   } catch (error) {
     res.status(400).json({ error });
   }
@@ -20,6 +27,13 @@ router.put("/user/:id", auth, async (req: Request, res: Response) => {
   try {
     const updateFields: Record<string, any> = {};
     res.set("Content-Type", "application/json");
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+    res.setHeader(
+      "Access-Control-Allow-Headers",
+      "Content-Type, Authorization"
+    );
+    res.setHeader("Access-Control-Allow-Credentials", "true");
     if (req.body.profileImage) {
       updateFields.profileImage = req.body.profileImage;
     }
@@ -36,7 +50,7 @@ router.put("/user/:id", auth, async (req: Request, res: Response) => {
       { new: true }
     );
 
-    res.json(user);
+    res.status(200).json(user);
   } catch (error) {
     res.status(400).json({ error });
   }

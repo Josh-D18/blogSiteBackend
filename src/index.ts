@@ -10,7 +10,7 @@ const blogRoutes = require("./Blog/blog.routes");
 const userRoutes = require("./User/users.routes");
 import mongoDB from "./MongoDB/connect";
 
-app.use(cors({ origin: process.env.PROD_URL }));
+app.use(cors());
 app.use(express.json());
 app.use("/api/", loginRoute);
 app.use("/api/", registerRoute);
@@ -21,6 +21,5 @@ mongoDB.connectToDatabase(process.env.database!);
 mongoDB.connectToMongoGif();
 
 app.listen(port, () => {
-  console.log(process.env.PROD_URL);
   console.log(`[Server]: I am running at http://localhost:${port}`);
 });

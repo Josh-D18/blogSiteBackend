@@ -19,6 +19,13 @@ router.post("/login", async (req: Request, res: Response) => {
       process.env.JWT_SECRET,
       { expiresIn: "4h" }
     );
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+    res.setHeader(
+      "Access-Control-Allow-Headers",
+      "Content-Type, Authorization"
+    );
+    res.setHeader("Access-Control-Allow-Credentials", "true");
     res.status(200).json({ user, token });
   } catch (error) {
     res.status(400).json({ error });

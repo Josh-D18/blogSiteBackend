@@ -10,7 +10,14 @@ router.get("/blog/:id", auth, async (req: Request, res: Response) => {
   try {
     const blog = await Blog.findById(req.params.id);
     res.set("Content-Type", "application/json");
-    res.json(blog);
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+    res.setHeader(
+      "Access-Control-Allow-Headers",
+      "Content-Type, Authorization"
+    );
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    res.status(200).json(blog);
   } catch (error) {
     res.status(400).json({ error });
   }
@@ -21,6 +28,14 @@ router.post("/blog", auth, async (req: Request, res: Response) => {
   try {
     const { title, content, author } = req.body;
     res.set("Content-Type", "application/json");
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+    res.setHeader(
+      "Access-Control-Allow-Headers",
+      "Content-Type, Authorization"
+    );
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    res.sendStatus(200);
     if (!title || !content || !author) {
       return res.status(400).json({ error: "Missing required fields" });
     }
@@ -34,7 +49,7 @@ router.post("/blog", auth, async (req: Request, res: Response) => {
     await User.findByIdAndUpdate(author, {
       $push: { blogs: blog._id },
     });
-    res.json(blog);
+    res.status(200).json(blog);
   } catch (error) {
     res.status(400).json({ error });
   }
@@ -45,6 +60,13 @@ router.put("/blog/:id", auth, async (req: Request, res: Response) => {
   try {
     const { title, content, author } = req.body;
     res.set("Content-Type", "application/json");
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+    res.setHeader(
+      "Access-Control-Allow-Headers",
+      "Content-Type, Authorization"
+    );
+    res.setHeader("Access-Control-Allow-Credentials", "true");
     const updatedBlog = {
       title,
       content,
@@ -55,7 +77,7 @@ router.put("/blog/:id", auth, async (req: Request, res: Response) => {
       new: true,
     });
 
-    res.json(blog);
+    res.status(200).json(blog);
   } catch (error) {
     res.status(400).json({ error });
   }

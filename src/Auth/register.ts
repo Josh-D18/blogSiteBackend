@@ -38,7 +38,14 @@ router.post("/register", async (req: Request, res: Response) => {
       );
 
       await user.save();
-      res.json(token);
+      res.setHeader("Access-Control-Allow-Origin", "*");
+      res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+      res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Content-Type, Authorization"
+      );
+      res.setHeader("Access-Control-Allow-Credentials", "true");
+      res.status(200).json(token);
     });
   } catch (error) {
     res.status(400).send({ error: error });
