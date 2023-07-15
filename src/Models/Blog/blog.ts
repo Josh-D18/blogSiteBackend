@@ -12,7 +12,7 @@ interface IBlog extends Document {
 
 const BlogSchema: mongoose.Schema<IBlog> = new mongoose.Schema({
   title: { type: String, maxlength: 70, minlength: 8 },
-  content: { type: String, maxlength: 1600, minlength: 300 },
+  content: { type: String, maxlength: 1600, minlength: 50 },
   author: { type: Schema.Types.ObjectId, ref: "User" },
 });
 

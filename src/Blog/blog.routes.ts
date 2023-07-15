@@ -28,11 +28,20 @@ router.get("/user/blog/:id", auth, async (req: Request, res: Response) => {
 //Create a blog
 router.post("/blog", auth, async (req: Request, res: Response) => {
   try {
-    const newBlog = req.body;
-    if (newBlog.title === "" || newBlog.content === "") {
-      res.status(400).json({ error: "No Field Should Be Empty" });
+    const { title, content, author } = req.body;
+    if (!title || !content || !author) {
+      return res.status(400).json({ error: "Missing required fields" });
     }
-    const blog = await Blog.create(newBlog);
+
+    const blog = await Blog.create({
+      title,
+      content,
+      author,
+    });
+
+    await User.findByIdAndUpdate(author, {
+      $push: { blogs: blog._id },
+    });
     res.json(blog);
   } catch (error) {
     res.status(400).json({ error });
@@ -42,10 +51,18 @@ router.post("/blog", auth, async (req: Request, res: Response) => {
 //Edit a blog
 router.put("/blog/:id", auth, async (req: Request, res: Response) => {
   try {
-    const updatedBlog = req.body;
+    const { title, content, author } = req.body;
+
+    const updatedBlog = {
+      title,
+      content,
+      author,
+    };
+
     const blog = await Blog.findByIdAndUpdate(req.params.id, updatedBlog, {
       new: true,
     });
+
     res.json(blog);
   } catch (error) {
     res.status(400).json({ error });

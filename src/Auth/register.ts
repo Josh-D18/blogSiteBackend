@@ -26,7 +26,7 @@ router.post("/", async (req: Request, res: Response) => {
       const user = new User({
         username: username,
         password: hashpassword,
-        backgroundColor: "#a01bd4",
+        backgroundColor: "#149c81",
         bio: bio,
       });
       const token = await jwt.sign(
