@@ -12,10 +12,10 @@ import mongoDB from "./MongoDB/connect";
 
 app.use(express.json());
 app.use(cors());
-app.use("/login", loginRoute);
-app.use("/register", registerRoute);
-app.use("/", blogRoutes);
-app.use("/", userRoutes);
+app.use("api/login", loginRoute);
+app.use("api/register", registerRoute);
+app.use("/api/", blogRoutes);
+app.use("/api/", userRoutes);
 
 mongoDB.connectToDatabase(process.env.database!);
 mongoDB.connectToMongoGif();
