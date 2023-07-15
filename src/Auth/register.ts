@@ -5,17 +5,11 @@ const bcrypt = require("bcrypt");
 import { Request, Response } from "express";
 import User from "../Models/User/user";
 
-interface IProfileImage {
-  data: Buffer;
-  contentType: string;
-}
-
 router.post("/", async (req: Request, res: Response) => {
   try {
     let username = await req.body.username;
     let password = await req.body.password;
     let bio = await req.body.bio;
-    let profileImage: IProfileImage | null = null;
     let user = await User.findOne({ username });
 
     if (user?.username!.toLowerCase() === username.toLowerCase()) {
@@ -28,20 +22,10 @@ router.post("/", async (req: Request, res: Response) => {
       return;
     }
 
-    const file = req.file;
-
-    if (file) {
-      profileImage = {
-        data: file?.buffer,
-        contentType: file?.mimetype,
-      };
-    }
-
     bcrypt.hash(password, 8).then(async (hashpassword: any) => {
       const user = new User({
         username: username,
         password: hashpassword,
-        profileImage: profileImage,
         backgroundColor: "#a01bd4",
         bio: bio,
       });
