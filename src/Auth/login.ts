@@ -5,7 +5,6 @@ const bcrypt = require("bcrypt");
 import { Request, Response } from "express";
 import User from "../Models/User/user";
 
-// Login
 router.post("/", async (req: Request, res: Response) => {
   try {
     let username = req.body.username;

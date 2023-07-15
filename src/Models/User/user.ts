@@ -1,7 +1,20 @@
 import mongoose from "mongoose";
-const { Schema } = mongoose;
 
-const UserSchema = new Schema({
+interface IUser extends Document {
+  username: string;
+  password: string;
+  profileImage?:
+    | {
+        data?: Buffer | undefined;
+        contentType?: string | undefined;
+      }
+    | undefined;
+  backgroundColor: String;
+  bio: String;
+  blogs: mongoose.Types.ObjectId[];
+}
+
+const UserSchema: mongoose.Schema<IUser> = new mongoose.Schema({
   username: String,
   password: String,
   profileImage: {
@@ -9,7 +22,8 @@ const UserSchema = new Schema({
     contentType: String,
   },
   backgroundColor: String,
-  blogs: [{ type: Schema.Types.ObjectId, ref: "Blog" }],
+  bio: String,
+  blogs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Blog" }],
 });
 
 const User = mongoose.model("User", UserSchema);

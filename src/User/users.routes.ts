@@ -17,9 +17,24 @@ router.get("/user", auth, async (req: Request, res: Response) => {
 //Edit a user
 router.put("/user", auth, async (req: Request, res: Response) => {
   try {
-    const user = await User.findById({ _id: req.body.id });
-    const newUser = { ...req.body };
-    res.json(newUser);
+    const updateFields: Record<string, any> = {};
+    if (req.body.profileImage) {
+      updateFields.profileImage = req.body.profileImage;
+    }
+    if (req.body.backgroundColor) {
+      updateFields.backgroundColor = req.body.backgroundColor;
+    }
+    if (req.body.bio) {
+      updateFields.bio = req.body.bio;
+    }
+
+    const user = await User.findOneAndUpdate(
+      { _id: req.body.id },
+      updateFields,
+      { new: true }
+    );
+
+    res.json(user);
   } catch (error) {
     res.status(400).json({ error });
   }

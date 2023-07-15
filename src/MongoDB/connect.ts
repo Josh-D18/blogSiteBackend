@@ -2,12 +2,11 @@
 import mongoose, { Mongoose } from "mongoose";
 import multer from "multer";
 import Grid from "gridfs-stream";
-import { Readable } from "stream";
 
-const connectToDatabase = async (): Promise<Mongoose> => {
+const connectToDatabase = async (databaseName: string): Promise<Mongoose> => {
   try {
     const MONGO_URI = process.env.MONGO_DB_URI || "";
-    const connection = await mongoose.connect(MONGO_URI);
+    const connection = await mongoose.connect(`${MONGO_URI}${databaseName}`);
     console.log("Connected to MongoDB");
     return connection;
   } catch (error) {
@@ -17,19 +16,22 @@ const connectToDatabase = async (): Promise<Mongoose> => {
 };
 
 // Create GridFS storage
-let gfs: Grid.Grid;
-mongoose.connection.once("open", () => {
-  gfs = Grid(mongoose.connection.db, mongoose.mongo);
-  gfs.collection("uploads");
-});
+const connectToMongoGif = () => {
+  let gfs: Grid.Grid;
+  const connection = mongoose.connection.once("open", () => {
+    gfs = Grid(mongoose.connection.db, mongoose.mongo);
+    gfs.collection("uploads");
+  });
+  return connection;
+};
 
 // Set up Multer storage engine
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-connectToDatabase();
-
 export default {
   storage,
   upload,
+  connectToDatabase,
+  connectToMongoGif,
 };
