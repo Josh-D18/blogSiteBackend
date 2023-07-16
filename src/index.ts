@@ -2,7 +2,7 @@ import express from "express";
 
 const cors = require("cors");
 const app = express();
-const port = 5050;
+const port = process.env.PORT || 5050;
 require("dotenv").config();
 const loginRoute = require("./Auth/login");
 const registerRoute = require("./Auth/register");
