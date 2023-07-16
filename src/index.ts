@@ -18,7 +18,6 @@ app.use("/api/", blogRoutes);
 app.use("/api/", userRoutes);
 
 mongoDB.connectToDatabase(process.env.database!);
-mongoDB.connectToMongoGif();
 
 app.listen(port, () => {
   console.log(`[Server]: I am running at http://localhost:${port}`);

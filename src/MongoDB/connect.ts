@@ -1,7 +1,5 @@
 // Connect to MongoDB
 import mongoose, { Mongoose } from "mongoose";
-import multer from "multer";
-import Grid from "gridfs-stream";
 
 const connectToDatabase = async (databaseName: string): Promise<Mongoose> => {
   try {
@@ -15,23 +13,6 @@ const connectToDatabase = async (databaseName: string): Promise<Mongoose> => {
   }
 };
 
-// Create GridFS storage
-const connectToMongoGif = () => {
-  let gfs: Grid.Grid;
-  const connection = mongoose.connection.once("open", () => {
-    gfs = Grid(mongoose.connection.db, mongoose.mongo);
-    gfs.collection("uploads");
-  });
-  return connection;
-};
-
-// Set up Multer storage engine
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
-
 export default {
-  storage,
-  upload,
   connectToDatabase,
-  connectToMongoGif,
 };
